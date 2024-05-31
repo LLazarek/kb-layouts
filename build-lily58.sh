@@ -15,5 +15,13 @@ if [ ! -f "setup-done" ]; then
     touch setup-done
 fi
 
-qmk compile -e CONVERT_TO=helios -kb lily58 -km lukas
+qmk compile -e CONVERT_TO=helios -kb lily58 -km lukas || exit 1
+
+echo "Do you want to flash the firmware now? (y/n)"
+read -r answer
+if [ "$answer" != "${answer#[Yy]}" ] ;then
+    echo double-press the reset key on the lily and wait for it to show up as a usb then hit enter
+    read -r answer || exit 1
+    cp lily58_rev1_lukas_helios.uf2 /media/lukas/RPI-RP2/ && echo "flashed!"
+fi
 
